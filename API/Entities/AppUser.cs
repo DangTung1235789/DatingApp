@@ -1,5 +1,6 @@
 namespace API.Entities
 {
+    // create Entities
     public class AppUser
     {
         public int Id { get; set; }
