@@ -9,6 +9,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AppComponent implements OnInit {
   title = 'The Dating app';
+  //KHAI BAO DU LIEU USERS: ANY(BAT KE LA TYPE NAO )
   users: any;
 
   constructor(private http: HttpClient) {}
@@ -16,7 +17,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.getUsers();
   }
-  
+  //LAY DU LIEU TU SERVER(API)
   getUsers() {
     this.http.get('https://localhost:5001/api/users').subscribe(response => {
       this.users = response;

@@ -12,7 +12,7 @@ namespace API.Data
         {
             
         }
-        //DbSet create a database set for AppUser
+        //DbSet: create a database set for AppUser
         //User: database
         public DbSet<AppUser> Users { get; set; }
     }
