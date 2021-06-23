@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { User } from '../_models/User';
 import { AccountService } from '../_services/account.service';
@@ -14,7 +16,8 @@ export class NavComponent implements OnInit {
   
   //improt { AccountService } from '../_services/account.service';
   //we're going to do is inject our service inside this component
-  constructor(public accountService: AccountService) { }
+  // Adding a toast service for notifications
+  constructor(public accountService: AccountService, private router: Router, private toastr: ToastrService) { }
   
   ngOnInit(): void {
   
@@ -28,15 +31,23 @@ export class NavComponent implements OnInit {
   we'll do just to see what happens => console.log(response)
   */
   //observables 
+  /*
+  when we want to do is when we have successfully logged in, so we're in the next part of the subcribe,
+  we going to take this opportunity to navigate to users to member's component
+  */
   login(){
     this.accountService.login(this.model).subscribe(response =>{
-      console.log(response);
+      this.router.navigateByUrl('/members');
     }, error =>{
       console.log(error);
+      // Adding a toast service for notifications
+      this.toastr.error(error.error);
     })
   }
   logout(){
     //9. Persisting the login
     this.accountService.logout();
+    //send back to home page
+    this.router.navigateByUrl('/');
   }
 }

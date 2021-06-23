@@ -17,8 +17,14 @@ export class AccountService {
   baseUrl = 'https://localhost:5001/api/'
   //9. Persisting the login
   //we're going to create unobservable to store our user in 
+  /*
+    the reason we set this up as an observable that can be observed by other components or other classes in our application
+    whenever smt subcribes to this, then it's going to be notified if anything changes 
+    this is the reason for using observable in the first place of Guards is able to subcribes to this
+    auth.guard.ts
+  */
   private currentUserSource = new ReplaySubject<User>(1);
-  public currentUser$ = this.currentUserSource.asObservable();
+  currentUser$ = this.currentUserSource.asObservable();
   //bring in the HttpClient from Angular/common/HTTP 
   constructor(private http: HttpClient) { }
   //what comes after this is account and a login  => we say baseUrl + 'account/login'
@@ -63,6 +69,6 @@ export class AccountService {
   //9. Persisting the login
   logout() {
     localStorage.removeItem('user');
-    this.currentUserSource.next();
+    this.currentUserSource.next(null as any);
   }
 }

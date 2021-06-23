@@ -9,24 +9,36 @@ import { NavComponent } from './nav/nav.component';
 import { FormsModule } from '@angular/forms';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { HomeComponent } from './home/home.component';
-import { RegisterComponent } from './register/register.component'; 
+import { RegisterComponent } from './register/register.component';
+import { MemberListComponent } from './members/member-list/member-list.component';
+import { MemberDetailComponent } from './members/member-detail/member-detail.component';
+import { ListsComponent } from './lists/lists.component';
+import { MessagesComponent } from './messages/messages.component'; 
+import { ToastrModule } from 'ngx-toastr';
+import { SharedModule } from './_modules/shared.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavComponent,
     HomeComponent,
-    RegisterComponent
+    RegisterComponent,
+    MemberListComponent,
+    MemberDetailComponent,
+    ListsComponent,
+    MessagesComponent
   ],
   imports: [
+    //we will import module into here
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
     //click the button to log in and receive the token back from the server
     FormsModule,
-    //dropdown in wellcome user in front end
-    BsDropdownModule.forRoot()
+    //Tidying up the app module by using a shared module
+    //everthing in the sharedModule is going to be available for our app module to our components in our application
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]

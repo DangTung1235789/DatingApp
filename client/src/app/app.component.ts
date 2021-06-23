@@ -26,10 +26,12 @@ export class AppComponent implements OnInit {
   /*
   we're making the effort to go and get the token from local storage or 
   getting the user obj from local storage and then we're setting that in our account service
+  const user: User = JSON.parse(localStorage.getItem('user'));
+  const user: User = JSON.parse(localStorage.getItem('user') || '{}');
   */
   setCurrentUser(){
     const user: User = JSON.parse(localStorage.getItem('user') || '{}');
-    this.accountService.setCurrentUser(user);
+    this.accountService.setCurrentUser(user);    
   }
  
 }

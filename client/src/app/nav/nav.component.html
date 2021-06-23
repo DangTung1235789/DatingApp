@@ -1,27 +1,37 @@
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-primary">
     <div class="container">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#" style="text-align: left;">Dating App</a>
+            <!-- routerLink='/' this is going to take us to our home component-->
+            <a class="navbar-brand" routerLink='/' routerLinkActive='active'>Dating App</a>
             <!-- "*ngIf=loggedIn": only want to show these if a user is actually logged in -->
             <!-- (event) = function-->
             <!-- "*ngIf="ac.currentUser$ | async":showing if login is success (10. Using the async pipes)-->
-            <ul class="navbar-nav mr-auto" *ngIf="accountService.currentUser$ | async">
+            <ul class="navbar-nav mr-auto">
+              <!-- we add that we want unauthenticated user to access-->
+              <ng-container *ngIf="accountService.currentUser$ | async">
                 <li class="nav-item">
-                  <a class="nav-link" href="#">Matches</a>
+                  <!-- routerLink "/" la can thiet -->
+                  <!-- routerLinkActive='active' is highlight link-->
+                  <a class="nav-link" routerLink='/members' routerLinkActive='active'>Matches</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#">List</a>
+                  <!-- Adding the nav links -->
+                  <a class="nav-link" routerLink='/lists' routerLinkActive='active'>List</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#">Messages</a>
+                  <!-- Adding the nav links -->
+                  <a class="nav-link" routerLink='/messages' routerLinkActive='active'>Messages</a>
                 </li>
+              </ng-container>   
             </ul>
             <!--*ngIf="loggedIn": showing if login success-->
             <!-- get dropdown: https://valor-software.com/ngx-bootstrap/dropdowns -->
             <!-- mt: margin top which bootstrap class, we can specify the amount-->
             <!-- "*ngIf="ac.currentUser$ | async":showing if login is success (10. Using the async pipes)-->
-            <div class="dropdown" *ngIf="accountService.currentUser$ | async" dropdown>
-              <a class="dropdown-toggle text-light" dropdownToggle>Wellcome User</a>
+            <!-- "as user" use this property as the user inside our code -->
+            <!-- we got out of our observable and it's usable as just our user-->
+            <div class="dropdown" *ngIf="(accountService.currentUser$ | async) as user" dropdown>
+              <a class="dropdown-toggle text-light" dropdownToggle>Wellcome {{user.username | titlecase}}</a>
               <div class="dropdown-menu mt-3" *dropdownMenu>
                 <a class="dropdown-item">Edit Profile</a>
                 <div class="dropdown-devider"></div>
@@ -50,9 +60,9 @@
                   name="password"
                   [(ngModel)]="model.password"
                   class="form-control mr-sm-2" 
-                  type="password" p
-                  laceholder="Password">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
+                  type="password"
+                  placeholder="Password">
+                <button class="btn btn-success my-2 my-sm-0" type="submit">Login</button>
             </form>
         </div>
     </div>

@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { AccountService } from '../_services/account.service';
 
 @Component({
@@ -16,7 +17,8 @@ export class RegisterComponent implements OnInit {
   model: any = {}
   //15. Hooking up the register method to the service (hooking up: ket noi)
   //we need to bring in the account Service
-  constructor(private accountService: AccountService) { }
+  // Adding a toast service for notifications
+  constructor(private accountService: AccountService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
   }
@@ -31,6 +33,8 @@ export class RegisterComponent implements OnInit {
       this.cancel();
     }, error =>{
       console.log(error);
+      // Adding a toast service for notifications
+      this.toastr.error(error.error);
     })
   }
   //12. Adding a register form
