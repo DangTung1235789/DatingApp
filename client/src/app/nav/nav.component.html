@@ -1,0 +1,60 @@
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <div class="container">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#" style="text-align: left;">Dating App</a>
+            <!-- "*ngIf=loggedIn": only want to show these if a user is actually logged in -->
+            <!-- (event) = function-->
+            <!-- "*ngIf="ac.currentUser$ | async":showing if login is success (10. Using the async pipes)-->
+            <ul class="navbar-nav mr-auto" *ngIf="accountService.currentUser$ | async">
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Matches</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">List</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Messages</a>
+                </li>
+            </ul>
+            <!--*ngIf="loggedIn": showing if login success-->
+            <!-- get dropdown: https://valor-software.com/ngx-bootstrap/dropdowns -->
+            <!-- mt: margin top which bootstrap class, we can specify the amount-->
+            <!-- "*ngIf="ac.currentUser$ | async":showing if login is success (10. Using the async pipes)-->
+            <div class="dropdown" *ngIf="accountService.currentUser$ | async" dropdown>
+              <a class="dropdown-toggle text-light" dropdownToggle>Wellcome User</a>
+              <div class="dropdown-menu mt-3" *dropdownMenu>
+                <a class="dropdown-item">Edit Profile</a>
+                <div class="dropdown-devider"></div>
+                <a class="dropdown-item" (click)="logout()">Logout</a>
+              </div>
+            </div>
+            <!-- "ngForm" it's going to be an Angular form-->
+            <!-- (ngSubmit)="login() it's going to be an Angular submit -->
+            <!-- "autocomplete" nho lai nhung lan dang nhap -->
+            <!-- [(ngModel)]: 2 way binding 
+              we can blind data or properties in nav.components.ts and display them in nav.component.html
+              we can take data from nav.component.html (login, register) that's entered in a form and update smt inside our nav.component.ts
+              check in console in browser when click button
+            -->
+            <!--[parenthese] used for receiving from our components and the parenthese are used when data goes the other way -->
+            <!-- (event) = function -->
+            <!--*ngIf="(currentUser$ | async)==null: showing if login isn't success (10. Using the async pipes)-->
+            <form *ngIf="(accountService.currentUser$ | async)==null" #loginForm="ngForm" class="form-inline mt-2 mt-md-0"(ngSubmit)="login()" autocomplete="off">
+                <input 
+                  name="username"
+                  [(ngModel)]="model.username"
+                  class="form-control mr-sm-2" 
+                  type="search" 
+                  placeholder="Username">
+                <input 
+                  name="password"
+                  [(ngModel)]="model.password"
+                  class="form-control mr-sm-2" 
+                  type="password" p
+                  laceholder="Password">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+    
+</nav>

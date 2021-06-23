@@ -1,6 +1,8 @@
 
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { User } from './_models/User';
+import { AccountService } from './_services/account.service';
 
 @Component({
   selector: 'app-root',
@@ -9,20 +11,25 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AppComponent implements OnInit {
   title = 'The Dating app';
+  //khoi tao model user
   //KHAI BAO DU LIEU USERS: ANY(BAT KE LA TYPE NAO )
   users: any;
 
-  constructor(private http: HttpClient) {}
+  constructor(private accountService: AccountService) {}
 
   ngOnInit() {
-    this.getUsers();
+   
+    //9. Persisting the login
+    this.setCurrentUser();
   }
-  //LAY DU LIEU TU SERVER(API)
-  getUsers() {
-    this.http.get('https://localhost:5001/api/users').subscribe(response => {
-      this.users = response;
-    }, error => {
-      console.log(error);
-    })
+  //9. Persisting the login
+  /*
+  we're making the effort to go and get the token from local storage or 
+  getting the user obj from local storage and then we're setting that in our account service
+  */
+  setCurrentUser(){
+    const user: User = JSON.parse(localStorage.getItem('user') || '{}');
+    this.accountService.setCurrentUser(user);
   }
+ 
 }
