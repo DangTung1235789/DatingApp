@@ -67,8 +67,9 @@ export class AccountService {
     this.currentUserSource.next(user);
   }
   //9. Persisting the login
+  Null: any = null;
   logout() {
     localStorage.removeItem('user');
-    this.currentUserSource.next(null as any);
+    this.currentUserSource.next(this.Null); //loi load 
   }
 }

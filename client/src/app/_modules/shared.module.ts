@@ -12,6 +12,7 @@ import { ToastrModule } from 'ngx-toastr';
     //dropdown in wellcome user in front end
     BsDropdownModule.forRoot(),
     // Adding a toast service for notifications
+    //notification 
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right'
     })

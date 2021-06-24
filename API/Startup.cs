@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using API.Data;
 using API.Extensions;
 using API.Interfaces;
+using API.Middleware;
 using API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -47,11 +48,18 @@ namespace API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
+            //we see inside here is the first peace of middleware and exception 
+            //handling middleware always come at the top of middleware container
+            //because if an exception happens anywhere else in the middle where or as part of request 
+            //then it gets thrown up to the next level of exception handling
+            // if (env.IsDevelopment())
+            // {
+            //     //it's going to thrown all the way up to this 
+            //     //bay gio nen su dung middleware de Exception (Bat loi, hien loi)
+            //     app.UseDeveloperExceptionPage();
                 
-            }
+            // }
+            app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseHttpsRedirection();
             
