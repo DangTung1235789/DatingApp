@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 
 namespace API.Middleware
 {
+    //let's add smt globally we can use to handle our exceptions 
     public class ExceptionMiddleware
     {
         //we bring ILogger so that we can still logout our exception into the terminal

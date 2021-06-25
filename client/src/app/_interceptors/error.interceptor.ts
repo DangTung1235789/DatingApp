@@ -13,6 +13,8 @@ import { catchError } from 'rxjs/operators';
 when we do encounter(chạm chán) any of these errors, we handle them at a global level inside angular, 
 the way that we are going to achieve this is to use an HTTP interceptor (cản trở)
 */
+// muốn dùng interceptor thì phải có Exception Middleware
+// Khi có lỗi ở HTTP request or response thì mình sẽ bắt chúng nó ở đây và xử lý display them theo mình muốn
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 

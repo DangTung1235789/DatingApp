@@ -4,6 +4,8 @@ using API.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using AutoMapper;
+using API.Helpers;
 
 namespace API.Extensions
 {
@@ -19,6 +21,11 @@ namespace API.Extensions
             //testing is the main reason for creating an interface
             //add lifetime of token
             services.AddScoped<ITokenService, TokenService>();
+            //inside here we want to add the service for our repository
+            //ket noi IUserRepository voi UserRepository
+            services.AddScoped<IUserRepository, UserRepository>();
+            //add automapper de giai quyet loi vong lap 
+            services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly); //check loi
             //create a connection string for our database
             //connection string or other connection string for SQLite 
             //so that we can connect to our database from our application

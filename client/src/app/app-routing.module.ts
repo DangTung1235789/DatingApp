@@ -13,7 +13,9 @@ import { AuthGuard } from './_guards/auth.guard';
 //Roots repersent a root configuration for Router service, array of root, obj used Router.config
 //path: each one of these root is going to be obj
 //componet: specify the component we want to load 
+// chỉ dẫn đường link dẫn đến các components khi đã baseUrl
 // add to app.component.html 
+//baseURL: lay tu account service vi da inject vao app.component.ts
 const routes: Routes = [
   {path: '',component: HomeComponent},
   {
