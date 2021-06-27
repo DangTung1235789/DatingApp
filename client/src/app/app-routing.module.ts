@@ -26,7 +26,7 @@ const routes: Routes = [
         //6. Adding an Angular route guard (ko cho truy cap lung tung dung ko co authorized)
         {path: 'members',component: MemberListComponent, canActivate: [AuthGuard]},
         //each of members is going to have a root parameter 
-        {path: 'members/:id',component: MemberDetailComponent},
+        {path: 'members/:username',component: MemberDetailComponent},
         {path: 'lists',component: ListsComponent},
         {path: 'messages',component: MessagesComponent}
     ]

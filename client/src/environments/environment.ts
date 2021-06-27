@@ -3,7 +3,12 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  /*
+   - what we can put inside this is any variables we want to use across our application
+    that will automatically use a different version when we're in production 
+  */
+  apiUrl: 'https://localhost:5001/api/'
 };
 
 /*

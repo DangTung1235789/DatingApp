@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
 import {map} from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 import { User } from '../_models/User';
 
 
@@ -14,7 +15,8 @@ import { User } from '../_models/User';
 */
 export class AccountService {
   //we're going to inject the HTTP client into our account service
-  baseUrl = 'https://localhost:5001/api/'
+  //in environment.ts
+  baseUrl = environment.apiUrl;
   //9. Persisting the login
   //we're going to create unobservable to store our user in 
   /*
