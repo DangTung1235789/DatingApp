@@ -6,9 +6,11 @@ import { TestErrorsComponent } from './errors/test-errors/test-errors.component'
 import { HomeComponent } from './home/home.component';
 import { ListsComponent } from './lists/lists.component';
 import { MemberDetailComponent } from './members/member-detail/member-detail.component';
+import { MemberEditComponent } from './members/member-edit/member-edit.component';
 import { MemberListComponent } from './members/member-list/member-list.component';
 import { MessagesComponent } from './messages/messages.component';
 import { AuthGuard } from './_guards/auth.guard';
+import { PreventUnsavedChangesGuard } from './_guards/prevent-unsaved-changes.guard';
 
 //Roots repersent a root configuration for Router service, array of root, obj used Router.config
 //path: each one of these root is going to be obj
@@ -27,6 +29,10 @@ const routes: Routes = [
         {path: 'members',component: MemberListComponent, canActivate: [AuthGuard]},
         //each of members is going to have a root parameter 
         {path: 'members/:username',component: MemberDetailComponent},
+        //2. Creating a member edit component
+        //5. Adding a Can Deactivate (hủy kích hoạt) route guard
+        //khi chưa lưu editForm thì sẽ thông báo ở prevent-unsaved-changes-guard.ts
+        {path: 'member/edit',component: MemberEditComponent, canDeactivate: [PreventUnsavedChangesGuard]},
         {path: 'lists',component: ListsComponent},
         {path: 'messages',component: MessagesComponent}
     ]

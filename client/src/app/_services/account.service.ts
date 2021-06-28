@@ -17,6 +17,7 @@ export class AccountService {
   //we're going to inject the HTTP client into our account service
   //in environment.ts
   baseUrl = environment.apiUrl;
+  null: any = null;
   //9. Persisting the login
   //we're going to create unobservable to store our user in 
   /*
@@ -69,9 +70,9 @@ export class AccountService {
     this.currentUserSource.next(user);
   }
   //9. Persisting the login
-  Null: any = null;
+  
   logout() {
     localStorage.removeItem('user');
-    this.currentUserSource.next(this.Null); //loi load 
+    this.currentUserSource.next(this.null); //loi load 
   }
 }

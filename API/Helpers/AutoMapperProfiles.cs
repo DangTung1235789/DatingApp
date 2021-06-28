@@ -32,6 +32,8 @@ namespace API.Helpers
             .ForMember(dest => dest.Age, opt => opt.MapFrom(src => src.DateOfBirth.CalculateAge()));
             //this is our new mapping configuration 
             CreateMap<Photo, PhotoDto>();
+            //because it's a DTOs and we're going to want to map this into our user entity 
+            CreateMap<MemberUpdateDto,AppUser>();
         }
     }
 }
