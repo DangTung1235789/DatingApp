@@ -6,6 +6,7 @@ import { MemberEditComponent } from '../members/member-edit/member-edit.componen
 @Injectable({
   providedIn: 'root'
 })
+//5. Adding a Can Deactivate (hủy kích hoạt) route guard
 export class PreventUnsavedChangesGuard implements CanDeactivate<unknown> {
   /*
       - this is going to give us access to our edit form because we're going to need to check the status 

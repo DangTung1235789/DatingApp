@@ -18,6 +18,10 @@ namespace API.Extensions
         // specify "this" before the type that you extending 
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config)
         {
+            //3. Configuring cloudinary in the API (appsettings.json)
+            services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
+            //4. Adding a photo service
+            services.AddScoped<IPhotoService, PhotoService>();
             //testing is the main reason for creating an interface
             //add lifetime of token
             services.AddScoped<ITokenService, TokenService>();

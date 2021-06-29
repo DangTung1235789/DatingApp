@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using API.Data;
 using API.DTOs;
 using API.Entities;
+using API.Extensions;
 using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,8 +30,10 @@ namespace API.Controllers
         //we're going to use is IUserRepository 
         //now we got _mapper to access to map
         private readonly IMapper _mapper;
-        public UsersController(IUserRepository userRepository, IMapper mapper)
+        private readonly IPhotoService _photoService;
+        public UsersController(IUserRepository userRepository, IMapper mapper, IPhotoService photoService)
         {
+            _photoService = photoService;
             _mapper = mapper;
             _userRepository = userRepository;
         }
@@ -56,7 +60,9 @@ namespace API.Controllers
         //https://localhost:5001/api/Users/3 => return AppUser(3)
         //Adding the authentication middleware
         //[Authorize]: remove this because we do want authentication on our user control
-        [HttpGet("{username}")]
+        //7. Using the Created At Route method
+        //give our root a name
+        [HttpGet("{username}", Name = "GetUser")]
 
         public async Task<ActionResult<MemberDto>> GetUser(string username)
         {
@@ -87,7 +93,7 @@ namespace API.Controllers
             */
             //this should give us is the user's username from the token that the API uses to authenticate this user
             //so that's the user we're going to be updating in this case
-            var username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var username = User.GetUsername();
             var user = await _userRepository.GetUserByUsernameAsync(username);
             /*
             - When we're updating or using this to update an obj, then what we can use this method (map)
@@ -100,8 +106,87 @@ namespace API.Controllers
             _userRepository.Update(user);
             //we don't need to send any content back for a request
             if (await _userRepository.SaveAllAsync()) return NoContent();
-            
+
             return BadRequest("Failed to update user");
+        }
+        //5. Updating the users controller for update photo
+        //we're goingto do is go to our users controller where we're going to allow the user to add a new photo 
+        //we need to HttpPost because we're creating a new resource and we'll give this a root parameter of photo 
+        [HttpPost("add-photo")]
+        public async Task<ActionResult<PhotoDto>> AddPhoto(IFormFile file)
+        {
+            //we're getting our user 
+            var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
+            //we get out result back from the photo service and then check the result 
+            var result = await _photoService.AddPhotoAsync(file);
+            if(result.Error != null) return BadRequest(result.Error.Message);
+
+            var photo = new Photo
+            {
+                Url = result.SecureUrl.AbsoluteUri,
+                PublicId = result.PublicId
+            };
+            //check user have any photo
+            if(user.Photos.Count == 0)
+            {
+                photo.IsMain = true;
+            }
+
+            user.Photos.Add(photo);
+            if(await _userRepository.SaveAllAsync()){
+                /*
+                - we're going to return the roots "GetUser" of how to get user which contain the photos
+                and we return our photo object _mapper.Map<PhotoDto>(photo)
+                - 7. Using the Created At Route method
+                */
+                return CreatedAtRoute("GetUser", new {username = user.UserName} , _mapper.Map<PhotoDto>(photo));
+            }
+            return BadRequest("Problem adding photo");
+        }
+        //11. Setting the main photo in the API
+        [HttpPut("set-main-photo/{photoId}")]
+        public async Task<ActionResult> SetMainPhoto(int photoId)
+        {
+            var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
+            
+            var photo = user.Photos.FirstOrDefault(x => x.Id == photoId);
+
+            if(photo.IsMain) return BadRequest("This is already your main photo");
+
+            var currentMain = user.Photos.FirstOrDefault(x => x.IsMain);
+
+            // neu currentMain khac null thi currentMain.IsMain = false
+            if(currentMain != null) currentMain.IsMain = false;
+            photo.IsMain = true;
+
+            if(await _userRepository.SaveAllAsync()) return NoContent();
+
+            return BadRequest("Failed to set main photo");
+        }
+        //14. Deleting photos - API
+        // dùng root để tách biệt với UsersController 
+        [HttpDelete("delete-photo/{photoId}")]
+        //when we delete a resource, then we don't need to send anything back to the client => task<ActionResult>
+        public async Task<ActionResult> DeletePhoto(int photoId)
+        {
+            var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
+
+            var photo = user.Photos.FirstOrDefault(x => x.Id == photoId);
+
+            if(photo == null) return NotFound();
+
+            if(photo.IsMain) return BadRequest("You cannot delete your main photo");
+
+            if(photo.PublicId != null)
+            {
+                var result = await _photoService.DeletePhotoAsync(photo.PublicId);
+                if(result.Error != null) return BadRequest(result.Error.Message);
+            }
+            user.Photos.Remove(photo);
+
+            if(await _userRepository.SaveAllAsync()) return Ok();
+
+            return BadRequest("Failed to delete your photo");
         }
     }
 }

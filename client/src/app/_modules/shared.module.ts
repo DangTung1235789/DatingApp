@@ -4,6 +4,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ToastrModule } from 'ngx-toastr';
 import {TabsModule} from 'ngx-bootstrap/tabs';
 import {NgxGalleryModule} from '@kolkov/ngx-gallery';
+import {FileUploadModule} from 'ng2-file-upload';
 
 //9. Tidying up the app module by using a shared module
 @NgModule({
@@ -20,14 +21,17 @@ import {NgxGalleryModule} from '@kolkov/ngx-gallery';
     //12. Styling the member detailed page part two
     TabsModule.forRoot(),
     // Adding a photo gallery
-    NgxGalleryModule
+    NgxGalleryModule,
+    //9. Adding a photo uploader
+    FileUploadModule
     //we want what inside imports to be available everywhere else, need to export the module
   ],
   exports: [
     BsDropdownModule,
     ToastrModule,
     TabsModule,
-    NgxGalleryModule 
+    NgxGalleryModule,
+    FileUploadModule,   
   ]
 })
 export class SharedModule { }

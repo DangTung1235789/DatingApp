@@ -7,5 +7,7 @@ namespace API.DTOs
     {
         public string Username { get; set; }
         public string Token { get; set; }
+        //12. Adding the main photo image to the nav bar
+        public string PhotoUrl { get; set; }
     }
 }

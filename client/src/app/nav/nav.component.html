@@ -35,7 +35,9 @@
             <!-- "as user" use this property as the user inside our code -->
             <!-- we got out of our observable and it's usable as just our user-->
             <div class="dropdown" *ngIf="(accountService.currentUser$ | async) as user" dropdown>
-              <a class="dropdown-toggle text-light" dropdownToggle>Wellcome {{user.username | titlecase}}</a>
+              <!-- 12. Adding the main photo image to the nav bar -->
+              <img src="{{user.photoUrl}}" alt="{{user.username}}">
+              <a class="dropdown-toggle text-light m-2" dropdownToggle>Wellcome {{user.username | titlecase}}</a>
               <div class="dropdown-menu mt-3" *dropdownMenu>
                 <a class="dropdown-item" routerLink='/member/edit'>Edit Profile</a>
                 <div class="dropdown-devider"></div>

@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -74,7 +75,9 @@ namespace API.Controllers
             //we're going to make a reuest to our database => await
             //find an entity in our database, we used to FindAsync() -> primary key
             //Username not primary key in our database => use SingleOrDefaultAsync 
-            var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == loginDto.Username);
+            var user = await _context.Users
+            .Include(p => p.Photos)
+            .SingleOrDefaultAsync(x => x.UserName == loginDto.Username);
             //we didn't find a user in our database with that username
             if (user == null)
             {
@@ -96,7 +99,9 @@ namespace API.Controllers
             return new UserDto
             {
                 Username =  user.UserName,
-                Token = _tokenService.CreateToken(user)
+                Token = _tokenService.CreateToken(user),
+                //12. Adding the main photo image to the nav bar
+                PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
             };
         }
         //check xem username da co trong database chua 

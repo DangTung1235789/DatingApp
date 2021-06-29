@@ -44,8 +44,7 @@ export class AccountService {
       map((response: User)=>{
         const user = response;
         if(user){
-          localStorage.setItem('user',JSON.stringify(user));
-          this.currentUserSource.next(user);
+          this.setCurrentUser(user);
         }
       })
     )
@@ -58,8 +57,7 @@ export class AccountService {
       map((user: User) =>{
         if(user){
           //pass user
-          localStorage.setItem('user',JSON.stringify(user));
-          this.currentUserSource.next(user);
+          this.setCurrentUser(user);
         }
         //them return user; de check register tren browser
       })
@@ -67,6 +65,7 @@ export class AccountService {
   }
   //9. Persisting the login
   setCurrentUser(user: User){
+    localStorage.setItem('user',JSON.stringify(user));
     this.currentUserSource.next(user);
   }
   //9. Persisting the login

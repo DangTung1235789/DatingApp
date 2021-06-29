@@ -23,6 +23,8 @@ using Microsoft.OpenApi.Models;
 
 namespace API
 {
+    //ApplicationServiceExtensions inject this
+    
     //StartUp class inject the data context into other parts of our application
     public class Startup
     {

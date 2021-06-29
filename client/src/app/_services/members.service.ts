@@ -68,4 +68,13 @@ export class MembersService {
       })
     )
   }
+  //13. Setting the main photo in the client
+  setMainPhoto(photoId: number) {
+    return this.http.put(this.baseUrl + 'users/set-main-photo/' + photoId, {});
+  }
+  //15. Deleting photos - Client
+  // ('users/delete-photo/'): called root in userController.cs
+  deletePhoto(photoId: number){
+    return this.http.delete(this.baseUrl + 'users/delete-photo/' + photoId);
+  }
 }
