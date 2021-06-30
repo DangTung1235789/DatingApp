@@ -5,6 +5,7 @@ import { ToastrModule } from 'ngx-toastr';
 import {TabsModule} from 'ngx-bootstrap/tabs';
 import {NgxGalleryModule} from '@kolkov/ngx-gallery';
 import {FileUploadModule} from 'ng2-file-upload';
+import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
 
 //9. Tidying up the app module by using a shared module
 @NgModule({
@@ -23,7 +24,9 @@ import {FileUploadModule} from 'ng2-file-upload';
     // Adding a photo gallery
     NgxGalleryModule,
     //9. Adding a photo uploader
-    FileUploadModule
+    FileUploadModule,
+    //9. Adding a reusable date input
+    BsDatepickerModule.forRoot()
     //we want what inside imports to be available everywhere else, need to export the module
   ],
   exports: [
@@ -31,7 +34,8 @@ import {FileUploadModule} from 'ng2-file-upload';
     ToastrModule,
     TabsModule,
     NgxGalleryModule,
-    FileUploadModule,   
+    FileUploadModule, 
+    BsDatepickerModule  
   ]
 })
 export class SharedModule { }

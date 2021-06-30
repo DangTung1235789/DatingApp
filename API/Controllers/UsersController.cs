@@ -63,7 +63,7 @@ namespace API.Controllers
         //7. Using the Created At Route method
         //give our root a name
         [HttpGet("{username}", Name = "GetUser")]
-
+        
         public async Task<ActionResult<MemberDto>> GetUser(string username)
         {
             // we're going to be return is MemberDto and Mapper is take care of all of the mapping 
@@ -113,6 +113,7 @@ namespace API.Controllers
         //we're goingto do is go to our users controller where we're going to allow the user to add a new photo 
         //we need to HttpPost because we're creating a new resource and we'll give this a root parameter of photo 
         [HttpPost("add-photo")]
+        // dùng root để tách biệt với UsersController, dùng trong members.service.ts ở frontEnd
         public async Task<ActionResult<PhotoDto>> AddPhoto(IFormFile file)
         {
             //we're getting our user 
@@ -144,6 +145,7 @@ namespace API.Controllers
             return BadRequest("Problem adding photo");
         }
         //11. Setting the main photo in the API
+        // dùng root để tách biệt với UsersController, dùng trong members.service.ts ở frontEnd
         [HttpPut("set-main-photo/{photoId}")]
         public async Task<ActionResult> SetMainPhoto(int photoId)
         {
@@ -164,7 +166,7 @@ namespace API.Controllers
             return BadRequest("Failed to set main photo");
         }
         //14. Deleting photos - API
-        // dùng root để tách biệt với UsersController 
+        // dùng root để tách biệt với UsersController, dùng trong members.service.ts ở frontEnd
         [HttpDelete("delete-photo/{photoId}")]
         //when we delete a resource, then we don't need to send anything back to the client => task<ActionResult>
         public async Task<ActionResult> DeletePhoto(int photoId)

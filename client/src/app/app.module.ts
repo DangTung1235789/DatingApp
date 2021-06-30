@@ -6,7 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavComponent } from './nav/nav.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
@@ -27,6 +27,8 @@ import { MemberEditComponent } from './members/member-edit/member-edit.component
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { LoadingInterceptor } from './_interceptors/loading.interceptor';
 import { PhotoEditorComponent } from './members/photo-editor/photo-editor.component';
+import { TextInputComponent } from './_form/text-input/text-input.component';
+import { DateInputComponent } from './_form/date-input/date-input.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +45,9 @@ import { PhotoEditorComponent } from './members/photo-editor/photo-editor.compon
     ServerErrorComponent,
     MemberCardComponent,
     MemberEditComponent,
-    PhotoEditorComponent
+    PhotoEditorComponent,
+    TextInputComponent,
+    DateInputComponent
   ],
   imports: [
     //we will import module into here
@@ -56,7 +60,9 @@ import { PhotoEditorComponent } from './members/photo-editor/photo-editor.compon
     //Tidying up the app module by using a shared module
     //everthing in the sharedModule is going to be available for our app module to our components in our application
     SharedModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    //2. Reactive forms introduction
+    ReactiveFormsModule
   ],
    //we need to  provide all of ErrorInterceptor in our app.module
   //because Angular comes of its interceptors and adding this to an interceptors array inside Angular

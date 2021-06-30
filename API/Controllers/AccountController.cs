@@ -6,6 +6,7 @@ using API.Data;
 using API.DTOs;
 using API.Entities;
 using API.Interfaces;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,10 +17,12 @@ namespace API.Controllers
     public class AccountController : BaseApiController
     {
         private readonly ITokenService _tokenService;
+        private readonly IMapper _mapper;
 
         private readonly DataContext _context;
-        public AccountController(DataContext context, ITokenService tokenService)
+        public AccountController(DataContext context, ITokenService tokenService, IMapper mapper)
         {
+            _mapper = mapper;
             _tokenService = tokenService;
             _context = context;
 
@@ -41,24 +44,25 @@ namespace API.Controllers
             {
                 return BadRequest("Username is taken");
             }
+            //10. Updating the API register method
+            var user = _mapper.Map<AppUser>(registerDto);
             //this is provide a hashing algorithm: use to create a password hash
             using var hmac = new HMACSHA512();
             //create a new user 
-            var user = new AppUser
-            {
-                UserName = registerDto.Username.ToLower(),
-                PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
-                PasswordSalt = hmac.Key
-            };
+            user.UserName = registerDto.Username.ToLower();
+            user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password));
+            user.PasswordSalt = hmac.Key;
+
             // add User register to Database 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
             //retrun UserDto
             return new UserDto
             {
-                Username =  user.UserName,
+                Username = user.UserName,
                 //call create token 
-                Token = _tokenService.CreateToken(user)
+                Token = _tokenService.CreateToken(user),
+                KnownAs = user.KnownAs
             };
         }
         //create the method to "login" 
@@ -98,10 +102,12 @@ namespace API.Controllers
             //retrun UserDto
             return new UserDto
             {
-                Username =  user.UserName,
+                Username = user.UserName,
                 Token = _tokenService.CreateToken(user),
                 //12. Adding the main photo image to the nav bar
-                PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
+                PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
+                //10. Updating the API register method
+                KnownAs = user.KnownAs
             };
         }
         //check xem username da co trong database chua 

@@ -34,6 +34,8 @@ namespace API.Helpers
             CreateMap<Photo, PhotoDto>();
             //because it's a DTOs and we're going to want to map this into our user entity 
             CreateMap<MemberUpdateDto,AppUser>();
+            //10. Updating the API register method
+            CreateMap<RegisterDTO, AppUser>();
         }
     }
 }

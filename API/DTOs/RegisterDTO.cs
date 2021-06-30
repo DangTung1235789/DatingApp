@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace API.DTOs
@@ -7,9 +8,16 @@ namespace API.DTOs
     //khoi tao obj de truyen ham in AccountController
     public class RegisterDTO
     {
-        [Required]
         //tranh dat ten UserName vi trung vi Entities
-        public string Username { get; set; }
+        [Required] public string Username { get; set; }
+        
+        //10. Updating the API register method
+        [Required] public string KnownAs { get; set; }
+        [Required] public string Gender { get; set; }
+        [Required] public DateTime DateOfBirth { get; set; }
+        [Required] public string City { get; set; }
+        [Required] public string Country { get; set; }
+
         [Required]
         //7. Error handling
         //we've got some additional things that are output 
