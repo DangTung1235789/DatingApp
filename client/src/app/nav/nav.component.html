@@ -37,7 +37,7 @@
           <div class="dropdown" *ngIf="(accountService.currentUser$ | async) as user" dropdown>
             <!-- 12. Adding the main photo image to the nav bar -->
             <img src="{{user.photoUrl || './assets/user.png'}}" alt="{{user.username}}">
-            <a class="dropdown-toggle text-light m-2" dropdownToggle>Wellcome {{user.username | titlecase}}</a>
+            <a class="dropdown-toggle text-light m-2" dropdownToggle>Wellcome {{user.knownAs | titlecase}}</a>
             <div class="dropdown-menu mt-3" *dropdownMenu>
               <a class="dropdown-item" routerLink='/member/edit'>Edit Profile</a>
               <div class="dropdown-devider"></div>
@@ -56,7 +56,7 @@
           <!--[parenthese] used for receiving from our components and the parenthese are used when data goes the other way -->
           <!-- (event) = function -->
           <!--*ngIf="(currentUser$ | async)==null: showing if login isn't success (10. Using the async pipes)-->
-          <form *ngIf="(accountService.currentUser$ | async)==null" #loginForm="ngForm" class="form-inline mt-2 mt-md-0"(ngSubmit)="login()" autocomplete="off">
+          <form *ngIf="(accountService.currentUser$ | async)==null" #loginForm="ngForm" class="form-inline mt-2 mt-md-0"(ngSubmit)="login()" autocomplete="off" >
               <input 
                 name="username"
                 [(ngModel)]="model.username"
@@ -68,8 +68,8 @@
                 [(ngModel)]="model.password"
                 class="form-control mr-sm-2" 
                 type="password"
-                placeholder="Password">
-              <button class="btn btn-success my-2 my-sm-0" type="submit">Login</button>
+                placeholder="Password" >
+              <button class="btn btn-success my-2 my-sm-0" type="submit" >Login</button>
           </form>
       </div> 
   </nav>

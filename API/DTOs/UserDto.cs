@@ -11,5 +11,9 @@ namespace API.DTOs
         public string PhotoUrl { get; set; }
         //10. Updating the API register method
         public string KnownAs { get; set; }
+        //9. Cleaning up the member service
+        //send back another bit of information about the user when we log in
+        //this is going to save us from making an API call simply to find out what gender the user is login
+        public string Gender { get; set; }
     }
 }

@@ -4,4 +4,7 @@ export interface User{
     token: string;
     //12. Adding the main photo image to the nav bar
     photoUrl: string;
+    knownAs: string;
+    //9. Cleaning up the member service
+    gender: string;
 }

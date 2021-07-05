@@ -6,6 +6,9 @@ import {TabsModule} from 'ngx-bootstrap/tabs';
 import {NgxGalleryModule} from '@kolkov/ngx-gallery';
 import {FileUploadModule} from 'ng2-file-upload';
 import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
+import { TimeagoModule } from 'ngx-timeago';
 
 //9. Tidying up the app module by using a shared module
 @NgModule({
@@ -26,7 +29,13 @@ import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
     //9. Adding a photo uploader
     FileUploadModule,
     //9. Adding a reusable date input
-    BsDatepickerModule.forRoot()
+    BsDatepickerModule.forRoot(),
+    //6. Using the angular bootstrap pagination component
+    PaginationModule.forRoot(),
+    // angular bootstrap => for root
+    //14. Sorting on the client
+    ButtonsModule.forRoot(),
+    TimeagoModule.forRoot()
     //we want what inside imports to be available everywhere else, need to export the module
   ],
   exports: [
@@ -35,7 +44,10 @@ import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
     TabsModule,
     NgxGalleryModule,
     FileUploadModule, 
-    BsDatepickerModule  
+    BsDatepickerModule,
+    PaginationModule,
+    ButtonsModule,
+    TimeagoModule  
   ]
 })
 export class SharedModule { }

@@ -22,9 +22,12 @@ namespace API.Extensions
             services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
             //4. Adding a photo service
             services.AddScoped<IPhotoService, PhotoService>();
+
             //testing is the main reason for creating an interface
             //add lifetime of token
             services.AddScoped<ITokenService, TokenService>();
+            //12. Adding an action filter
+            services.AddScoped<LogUserActivity>();
             //inside here we want to add the service for our repository
             //ket noi IUserRepository voi UserRepository
             services.AddScoped<IUserRepository, UserRepository>();

@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { Member } from 'src/app/_models/member';
+import { Pagination } from 'src/app/_models/pagination';
+import { User } from 'src/app/_models/User';
+import { UserParams } from 'src/app/_models/userParams';
+import { AccountService } from 'src/app/_services/account.service';
 import { MembersService } from 'src/app/_services/members.service';
 
 
@@ -14,13 +19,24 @@ export class MemberListComponent implements OnInit {
   //we can store inside is an array of members
   //members: Member[] = []
   //9. Using the service to store state
-  members$!: Observable<Member[]>;
-  
+  //members$!: Observable<Member[]>;
+  //5. Setting up client pagination
+  members!: Member[];
+  pagination!: Pagination;
+  userParams!: UserParams;
+  user!: User;
+  //10. Adding filter buttons to the client
+  genderList = [{value: 'male', display: 'Males'},{value: 'female', display: 'Females'}];
   //inject the service
-  constructor(private memberService: MembersService) { }
+  constructor(private memberService: MembersService) {
+    //18. Remembering the filters for a user in the service 
+    this.userParams = this.memberService.getUserParams();
+  }
   //9. Using the service to store state
+  // 5. Setting up client pagination
+  //khi chạy component này thì nó chạy constructor với ngOnInit
   ngOnInit(): void {
-    this.members$ = this.memberService.getMembers();
+    this.loadMembers();
     
   }
   //5. Retrieving (lấy lại) the list of members
@@ -31,6 +47,24 @@ export class MemberListComponent implements OnInit {
   //     this.members = members;
   //   })
   // }
-  
+  //5. Setting up client pagination
+  loadMembers(){
+    //18. Remembering the filters for a user in the service 
+    this.memberService.setUserParams(this.userParams);
+    this.memberService.getMembers(this.userParams).subscribe(response =>{
+      this.members = response.result;
+      this.pagination = response.pagination;
+    })
+  }
+  //10. Adding filter buttons to the client
+  resetFilters(){
+    this.userParams = this.memberService.resetUserParams();
+    this.loadMembers();
+  }
+  pageChanged(event: any){
+    this.userParams.pageNumber = event.page;
+    this.memberService.setUserParams(this.userParams);
+    this.loadMembers();
+  }
 
 }

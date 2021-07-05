@@ -9,6 +9,7 @@ using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using static System.Math;
 
 namespace API.Controllers
 {
@@ -62,7 +63,9 @@ namespace API.Controllers
                 Username = user.UserName,
                 //call create token 
                 Token = _tokenService.CreateToken(user),
-                KnownAs = user.KnownAs
+                KnownAs = user.KnownAs,
+                //9. Cleaning up the member service
+                Gender = user.Gender
             };
         }
         //create the method to "login" 
@@ -107,7 +110,9 @@ namespace API.Controllers
                 //12. Adding the main photo image to the nav bar
                 PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
                 //10. Updating the API register method
-                KnownAs = user.KnownAs
+                KnownAs = user.KnownAs,
+                //9. Cleaning up the member service
+                Gender = user.Gender
             };
         }
         //check xem username da co trong database chua 

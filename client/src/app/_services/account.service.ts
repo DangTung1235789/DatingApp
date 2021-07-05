@@ -51,7 +51,8 @@ export class AccountService {
   }
   //(model: any): we going to receive from our register.component
   //we need to pass up the model that we receive 
-  //map thay doi 1 vai thu method, property truoc khi gui ve service
+  //pipe thay doi 1 vai thu method, property truoc khi gui ve service
+  //phương thức map() cho phép bạn chuyển đổi các phần tử của mảng 
   register(model: any){
     return this.http.post<User>(this.baseUrl + 'account/register',model).pipe(
       map((user: User) =>{

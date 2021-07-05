@@ -6,6 +6,7 @@ using API.Data;
 using API.DTOs;
 using API.Entities;
 using API.Extensions;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -46,15 +47,22 @@ namespace API.Controllers
         //async: task, await, TolistAsync, FindAsync
         //return list users
         //ko dung AppUser vi tao vong lap
-        public async Task<ActionResult<IEnumerable</*AppUser*/MemberDto>>> GetUsers()
+        public async Task<ActionResult<IEnumerable</*AppUser*/MemberDto>>> GetUsers([FromQuery]UserParams userParams)
         {
+            //7. Adding filtering to the API ( bộ lọc )
+            var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
+            userParams.CurrentUsername = user.UserName;
+            if(string.IsNullOrEmpty(userParams.Gender)) 
+                userParams.Gender = user.Gender == "male" ? "female" : "male";
             //return await _context.Users.ToListAsync();
             ////we're going to use is IUserRepository 
             // var users = await _userRepository.GetUsersAsync();
             //we need to inject the map interface that we got from IMapper
             //we can specify what we want to map to IEnumerable of member DTO, then we pass at the source obj 
             // var usersToReturn = _mapper.Map<IEnumerable<MemberDto>>(users);
-            var users = await _userRepository.GetMembersAsync();
+            var users = await _userRepository.GetMembersAsync(userParams);
+            //we've alway got access to HTTP request response 
+            Response.AddPaginationHeader(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages); 
             return Ok(users);
         }
         //https://localhost:5001/api/Users/3 => return AppUser(3)

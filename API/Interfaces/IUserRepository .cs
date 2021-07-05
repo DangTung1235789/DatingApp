@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
+using API.Helpers;
 
 namespace API.Interfaces
 {
@@ -21,7 +22,9 @@ namespace API.Interfaces
          //we should do that return task is advise that they are Async 
          Task<AppUser> GetUserByUsernameAsync(string username);
          //15. Using AutoMapper queryable extensions
-         Task<IEnumerable<MemberDto>> GetMembersAsync();
+         //4. Using the pagination classes
+         //return PagedList 
+         Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams);
          Task<MemberDto> GetMemberAsync(string username);
     }
 }
