@@ -55,7 +55,7 @@ namespace API.Controllers
         //the purpose of this is to test 401 ( Unauthorised responses )
         public ActionResult<string> GetBadRequest()
         {
-            return BadRequest("this was not a good request");
+            return BadRequest();
         }
     }
 }

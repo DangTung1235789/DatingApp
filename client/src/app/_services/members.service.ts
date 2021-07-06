@@ -128,6 +128,16 @@ export class MembersService {
   deletePhoto(photoId: number){
     return this.http.delete(this.baseUrl + 'users/delete-photo/' + photoId);
   }
+  //6. Setting up the likes functions in the Angular app
+  addLike(username: string){
+    return this.http.post(this.baseUrl + 'likes/' + username, {});
+  }
+  //9. Paginating the likes on the client
+  getLikes(predicate: string, pageNumber: any, pageSize: any){
+    let params = this.getPaginationHeaders(pageNumber, pageSize);
+    params = params.append('predicate', predicate);
+    return this.getPaginatedResult<Partial<Member[]>>(this.baseUrl + 'likes', params);
+  }
 
   //9. Cleaning up the member service
   private getPaginatedResult<T>(url: any , params: any) {

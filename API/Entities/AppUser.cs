@@ -42,5 +42,8 @@ namespace API.Entities
         //     // call function in DateTimeExtension to Calculate Age
         //     return DateOfBirth.CalculateAge();
         // }
+        //2. Adding a likes entity
+        public ICollection<UserLike> LikedByUsers { get; set; }
+        public ICollection<UserLike> LikedUsers { get; set; }
     }
 }

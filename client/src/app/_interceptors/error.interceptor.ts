@@ -9,6 +9,7 @@ import { Observable, throwError } from 'rxjs';
 import { NavigationExtras, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { catchError } from 'rxjs/operators';
+
 /*
 when we do encounter(chạm chán) any of these errors, we handle them at a global level inside angular, 
 the way that we are going to achieve this is to use an HTTP interceptor (cản trở)
@@ -53,8 +54,10 @@ export class ErrorInterceptor implements HttpInterceptor {
                 //the reason: if we take our register form 
                 throw modalStateErrors.flat(); 
               }
-              else{
+              else if(typeof(error.error) === 'object'){
                 this.toastr.error(error.statusText, error.status);
+              } else{
+                this.toastr.error(error.error, error.status);
               }
               break;
             case 401:
