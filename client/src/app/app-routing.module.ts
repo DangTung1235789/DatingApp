@@ -11,6 +11,7 @@ import { MemberListComponent } from './members/member-list/member-list.component
 import { MessagesComponent } from './messages/messages.component';
 import { AuthGuard } from './_guards/auth.guard';
 import { PreventUnsavedChangesGuard } from './_guards/prevent-unsaved-changes.guard';
+import { MemberDetailedResolver } from './_resolvers/member-detailed.resolver';
 
 //Roots repersent a root configuration for Router service, array of root, obj used Router.config
 //path: each one of these root is going to be obj
@@ -28,7 +29,9 @@ const routes: Routes = [
         //6. Adding an Angular route guard (ko cho truy cap lung tung dung ko co authorized)
         {path: 'members',component: MemberListComponent, canActivate: [AuthGuard]},
         //each of members is going to have a root parameter 
-        {path: 'members/:username',component: MemberDetailComponent},
+        //member-detail.component.ts: resolve: {member: MemberDetailedResolver}
+        //14. Using route resolvers (fix loi )
+        {path: 'members/:username',component: MemberDetailComponent, resolve: {member: MemberDetailedResolver}},
         //2. Creating a member edit component
         //5. Adding a Can Deactivate (hủy kích hoạt) route guard
         //khi chưa lưu editForm thì sẽ thông báo ở prevent-unsaved-changes-guard.ts

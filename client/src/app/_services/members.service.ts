@@ -8,6 +8,7 @@ import { PaginatedResult } from '../_models/pagination';
 import { User } from '../_models/User';
 import { UserParams } from '../_models/userParams';
 import { AccountService } from './account.service';
+import { getPaginatedResult, getPaginationHeaders } from './paginationHelper';
 
 // /*
 //   - we're going to send up our authentication because our users endpoint is protected
@@ -73,14 +74,14 @@ export class MembersService {
     //and made the effort to get them from the API => use pipe
     // 5. Setting up client pagination
     // 9. Cleaning up the member service
-    let params = this.getPaginationHeaders(UserParams.pageNumber, UserParams.pageSize);
+    let params = getPaginationHeaders(UserParams.pageNumber, UserParams.pageSize);
 
     params = params.append('minAge',UserParams.minAge.toString());
     params = params.append('maxAge',UserParams.maxAge.toString());
     params = params.append('gender',UserParams.gender);
     params = params.append('orderBy',UserParams.orderBy);
     
-    return this.getPaginatedResult<Member[]>(this.baseUrl + 'users', params)
+    return getPaginatedResult<Member[]>(this.baseUrl + 'users', params, this.http)
       //16. Restoring the caching for members
       .pipe(map(response => {
         this.memberCache.set(Object.values(UserParams).join('-'), response);
@@ -134,40 +135,11 @@ export class MembersService {
   }
   //9. Paginating the likes on the client
   getLikes(predicate: string, pageNumber: any, pageSize: any){
-    let params = this.getPaginationHeaders(pageNumber, pageSize);
+    let params = getPaginationHeaders(pageNumber, pageSize);
     params = params.append('predicate', predicate);
-    return this.getPaginatedResult<Partial<Member[]>>(this.baseUrl + 'likes', params);
+    return getPaginatedResult<Partial<Member[]>>(this.baseUrl + 'likes', params, this.http);
   }
 
   //9. Cleaning up the member service
-  private getPaginatedResult<T>(url: any , params: any) {
-    // 5. Setting up client pagination
-    const paginatedResult: PaginatedResult<T> = new PaginatedResult<T>();
-    return this.http.get<T>(url, { observe: 'response', params }) /*, httpOptions);*/.pipe(
-      // map(members => {
-      //   this.members = members;
-      //   return members;
-      // })
-      map(response => {
-        // 5. Setting up client pagination
-        //response.body contain member[]
-        paginatedResult.result = response.body!;
-        //check our pagination header 
-        if (response.headers.get('Pagination') !== null) {
-          paginatedResult.pagination = JSON.parse(response.headers.get('Pagination') || '');
-        }
-        return paginatedResult;
-      })
-    );
-  }
-
-  // 9. Cleaning up the member service
-  // append noi chuoi
-  private getPaginationHeaders(pageNumber: number, pageSize: number){
-    let params = new HttpParams();
-      //pageNumber, pageSize: query string
-      params = params.append('pageNumber', pageNumber.toString());
-      params = params.append('pageSize', pageSize.toString());
-    return params;
-  }
+  
 }
