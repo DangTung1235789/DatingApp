@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Data;
+using API.Entities;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,6 +28,7 @@ namespace API
             using var scope = host.Services.CreateScope();
             var services = scope.ServiceProvider;
             //setting up a global exception handler, we dont have access to it in this method
+            //16.6. Updating the seed method
             try
             {
                 var context = services.GetRequiredService<DataContext>();
@@ -34,8 +37,12 @@ namespace API
                 what this also mean if we drop our database then all we need to do is restart our application
                 and our database recreated 
                 */
+                var userManager = services.GetRequiredService<UserManager<AppUser>>();
+
+                var roleManager = services.GetRequiredService<RoleManager<AppRole>>();
+
                 await context.Database.MigrateAsync();
-                await Seed.SeedUsers(context);
+                await Seed.SeedUsers(userManager, roleManager);
             }
             catch (Exception ex)
             {

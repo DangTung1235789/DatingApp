@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using API.Entities;
 
 namespace API.Interfaces
@@ -5,6 +6,6 @@ namespace API.Interfaces
     // lớp interface 
     public interface ITokenService
     {
-         string CreateToken(AppUser user);
+         Task<string> CreateToken(AppUser user);
     }
 }

@@ -39,6 +39,7 @@ namespace API.Controllers
             _userRepository = userRepository;
         }
         //endpoint: send back to the client
+
         [HttpGet]//getting data in this case
         //Adding the authentication middleware
         //[AllowAnonymous]: remove this because we do want authentication on our user control
@@ -70,6 +71,7 @@ namespace API.Controllers
         //[Authorize]: remove this because we do want authentication on our user control
         //7. Using the Created At Route method
         //give our root a name
+
         [HttpGet("{username}", Name = "GetUser")]
         
         public async Task<ActionResult<MemberDto>> GetUser(string username)

@@ -7,4 +7,6 @@ export interface User{
     knownAs: string;
     //9. Cleaning up the member service
     gender: string;
+    ////14. Adding an admin guard
+    roles: string[];
 }

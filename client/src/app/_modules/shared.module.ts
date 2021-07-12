@@ -9,6 +9,7 @@ import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { TimeagoModule } from 'ngx-timeago';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 //9. Tidying up the app module by using a shared module
 @NgModule({
@@ -35,7 +36,9 @@ import { TimeagoModule } from 'ngx-timeago';
     // angular bootstrap => for root
     //14. Sorting on the client
     ButtonsModule.forRoot(),
-    TimeagoModule.forRoot()
+    TimeagoModule.forRoot(),
+    //16.17. Setting up modals (cap phat vai tro hay remove user) 
+    ModalModule.forRoot(),
     //we want what inside imports to be available everywhere else, need to export the module
   ],
   exports: [
@@ -47,7 +50,8 @@ import { TimeagoModule } from 'ngx-timeago';
     BsDatepickerModule,
     PaginationModule,
     ButtonsModule,
-    TimeagoModule  
+    TimeagoModule,
+    ModalModule  
   ]
 })
 export class SharedModule { }

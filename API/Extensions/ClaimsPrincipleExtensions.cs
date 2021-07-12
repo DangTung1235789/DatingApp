@@ -4,6 +4,8 @@ namespace API.Extensions
 {
     /*
     Để tạo một cookie nắm giữ thông tin người dùng, bạn phải xây dựng một ClaimsPrincipal
+    Nếu ko muốn người dùng gửi 1 username bất kì thì phải bắt người dùng gửi lại token đã cấp cho username
+    Muốn người dùng gửi lại token mà mình đã cấp token cho username đấy thì dùng ClaimTypes
     */
     public static class ClaimsPrincipleExtensions
     {

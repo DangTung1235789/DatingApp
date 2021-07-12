@@ -7,6 +7,7 @@ using API.DTOs;
 using API.Entities;
 using API.Interfaces;
 using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using static System.Math;
@@ -17,15 +18,18 @@ namespace API.Controllers
     //this is a controller basically set up   
     public class AccountController : BaseApiController
     {
+        //16.7. Updating the account controller
         private readonly ITokenService _tokenService;
         private readonly IMapper _mapper;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
 
-        private readonly DataContext _context;
-        public AccountController(DataContext context, ITokenService tokenService, IMapper mapper)
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenService tokenService, IMapper mapper)
         {
+            _signInManager = signInManager;
+            _userManager = userManager;
             _mapper = mapper;
             _tokenService = tokenService;
-            _context = context;
 
         }
         //create the method to register a new user
@@ -48,21 +52,23 @@ namespace API.Controllers
             //10. Updating the API register method
             var user = _mapper.Map<AppUser>(registerDto);
             //this is provide a hashing algorithm: use to create a password hash
-            using var hmac = new HMACSHA512();
+            // using var hmac = new HMACSHA512();
             //create a new user 
             user.UserName = registerDto.Username.ToLower();
-            user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password));
-            user.PasswordSalt = hmac.Key;
+            
+            var result = await _userManager.CreateAsync(user, registerDto.Password);
 
-            // add User register to Database 
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-            //retrun UserDto
+            if(!result.Succeeded) return BadRequest(result.Errors);
+
+            var roleResult = await _userManager.AddToRoleAsync(user, "Member");
+
+            if(!roleResult.Succeeded) return BadRequest(result.Errors);
+
             return new UserDto
             {
                 Username = user.UserName,
                 //call create token 
-                Token = _tokenService.CreateToken(user),
+                Token = await _tokenService.CreateToken(user),
                 KnownAs = user.KnownAs,
                 //9. Cleaning up the member service
                 Gender = user.Gender
@@ -82,31 +88,35 @@ namespace API.Controllers
             //we're going to make a reuest to our database => await
             //find an entity in our database, we used to FindAsync() -> primary key
             //Username not primary key in our database => use SingleOrDefaultAsync 
-            var user = await _context.Users
+            var user = await _userManager.Users
             .Include(p => p.Photos)
-            .SingleOrDefaultAsync(x => x.UserName == loginDto.Username);
+            .SingleOrDefaultAsync(x => x.UserName == loginDto.Username.ToLower());
+
+            var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false); 
+
+            if(!result.Succeeded) return Unauthorized();
             //we didn't find a user in our database with that username
             if (user == null)
             {
                 return Unauthorized("Invalid username");
             }
             //calculate the computed hash of their password using the password solt
-            using var hmac = new HMACSHA512(user.PasswordSalt);
+            // using var hmac = new HMACSHA512(user.PasswordSalt);
 
-            var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
+            // var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
 
-            for (int i = 0; i < computedHash.Length; i++)
-            {
-                if (computedHash[i] != user.PasswordHash[i])
-                {
-                    return Unauthorized("Invalid Password");
-                }
-            }
-            //retrun UserDto
+            // for (int i = 0; i < computedHash.Length; i++)
+            // {
+            //     if (computedHash[i] != user.PasswordHash[i])
+            //     {
+            //         return Unauthorized("Invalid Password");
+            //     }
+            // }
+
             return new UserDto
             {
                 Username = user.UserName,
-                Token = _tokenService.CreateToken(user),
+                Token = await _tokenService.CreateToken(user),
                 //12. Adding the main photo image to the nav bar
                 PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
                 //10. Updating the API register method
@@ -118,7 +128,7 @@ namespace API.Controllers
         //check xem username da co trong database chua 
         private async Task<bool> UserExists(string username)
         {
-            return await _context.Users.AnyAsync(x => x.UserName == username.ToLower());
+            return await _userManager.Users.AnyAsync(x => x.UserName == username.ToLower());
         }
     }
 }

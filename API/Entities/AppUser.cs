@@ -1,17 +1,18 @@
 using System;
 using System.Collections.Generic;
 using API.Extensions;
+using Microsoft.AspNetCore.Identity;
 
 namespace API.Entities
 {
     // create Entities
-    public class AppUser
+    public class AppUser : IdentityUser<int>
     {
-        public int Id { get; set; }
-        public string UserName { get; set; }
-        //public byte[] => it's going to return when we calculate the hash 
-        public byte[] PasswordHash { get; set; }
-        public byte[] PasswordSalt { get; set; }
+        // public int Id { get; set; }
+        // public string UserName { get; set; }
+        // //public byte[] => it's going to return when we calculate the hash 
+        // public byte[] PasswordHash { get; set; }
+        // public byte[] PasswordSalt { get; set; }
 
         //Extending the user entity
         public DateTime DateOfBirth { get; set; }
@@ -49,5 +50,7 @@ namespace API.Entities
         // additional 2 collection 
         public ICollection<Message> MessagesSent { get; set; }
         public ICollection<Message> MessagesReceived { get; set; }
+
+        public ICollection<AppUserRole> UserRoles { get; set; }
     }
 }

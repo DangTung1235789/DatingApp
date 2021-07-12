@@ -18,6 +18,7 @@ namespace API.Services
     {
         //we need to give this the details of our API keys
         private readonly Cloudinary _cloudinary;
+        //appsetting lấy dữ liệu từ appsetting vào nạp dữ liệu bằng services.configure<CloudinarySettings>
         public PhotoService(IOptions<CloudinarySettings> config)
         {
             var acc = new Account

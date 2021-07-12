@@ -21,6 +21,10 @@
                 <!-- Adding the nav links -->
                 <a class="nav-link" routerLink='/messages' routerLinkActive='active'>Messages</a>
               </li>
+              <li *appHasRole='["Admin", "Moderator"]' class="nav-item">
+                <!-- Adding the nav links -->
+                <a class="nav-link" routerLink='/admin' routerLinkActive='active'>Admin</a>
+              </li>
             </ng-container>   
             <li class="nav-item">
               <!-- Adding the nav links -->
@@ -37,7 +41,7 @@
           <div class="dropdown" *ngIf="(accountService.currentUser$ | async) as user" dropdown>
             <!-- 12. Adding the main photo image to the nav bar -->
             <img src="{{user.photoUrl || './assets/user.png'}}" alt="{{user.username}}">
-            <a class="dropdown-toggle text-light m-2" dropdownToggle>Wellcome {{user.knownAs | titlecase}}</a>
+            <a class="dropdown-toggle text-light m-2" dropdownToggle>Wellcome {{user.knownAs || user.username | titlecase}}</a>
             <div class="dropdown-menu mt-3" *dropdownMenu>
               <a class="dropdown-item" routerLink='/member/edit'>Edit Profile</a>
               <div class="dropdown-devider"></div>

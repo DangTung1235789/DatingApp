@@ -19,6 +19,7 @@ namespace API.Extensions
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config)
         {
             //3. Configuring cloudinary in the API (appsettings.json)
+            //GetSection để đọc Key JSON, .Value để đọc giá trị
             services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
             //4. Adding a photo service
             services.AddScoped<IPhotoService, PhotoService>();
