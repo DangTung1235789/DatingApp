@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using AutoMapper;
 using API.Helpers;
+using API.SignalR;
 
 namespace API.Extensions
 {
@@ -18,6 +19,8 @@ namespace API.Extensions
         // specify "this" before the type that you extending 
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config)
         {
+            // 17.5. Adding a presence tracker
+            services.AddSingleton<PresenceTracker>();
             //3. Configuring cloudinary in the API (appsettings.json)
             //GetSection để đọc Key JSON, .Value để đọc giá trị
             services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));

@@ -20,11 +20,11 @@ namespace API.Entities
         public DateTime? DateRead { get; set; }
 
         //time message is send
-        public DateTime MessageSent { get; set; } = DateTime.Now;
+        public DateTime MessageSent { get; set; } = DateTime.UtcNow;
 
         //- the only time we delete a message from the serve, if both the sender and recipient have both 
         //deleted the massage 
-        public bool SenderDelete { get; set; }
+        public bool SenderDeleted { get; set; }
         public bool RecipientDeleted { get; set; }
     }
 }

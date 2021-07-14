@@ -4,6 +4,7 @@ import { ReplaySubject } from 'rxjs';
 import {map} from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { User } from '../_models/User';
+import { PresenceService } from './presence.service';
 
 
 //service can be injected into other components or other services in our application
@@ -29,7 +30,7 @@ export class AccountService {
   private currentUserSource = new ReplaySubject<User>(1);
   currentUser$ = this.currentUserSource.asObservable();
   //bring in the HttpClient from Angular/common/HTTP 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private presence: PresenceService) { }
   //what comes after this is account and a login  => we say baseUrl + 'account/login'
   //model: contain our "username and "password" that we send up to the server
   //model duoc khoi tao trong nav.component.ts (model co type la any)
@@ -45,6 +46,8 @@ export class AccountService {
         const user = response;
         if(user){
           this.setCurrentUser(user);
+          //17.4. Client side SignalR
+          this.presence.createHubConnection(user);
         }
       })
     )
@@ -59,6 +62,8 @@ export class AccountService {
         if(user){
           //pass user
           this.setCurrentUser(user);
+          //17.4. Client side SignalR
+          this.presence.createHubConnection(user);
         }
         //them return user; de check register tren browser
       })
@@ -77,6 +82,8 @@ export class AccountService {
   logout() {
     localStorage.removeItem('user');
     this.currentUserSource.next(this.null); //loi load 
+    //17.4. Client side SignalR
+    this.presence.stopHubConnection();
   }
 
   //14. Adding an admin guard

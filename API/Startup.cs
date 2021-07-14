@@ -8,6 +8,7 @@ using API.Extensions;
 using API.Interfaces;
 using API.Middleware;
 using API.Services;
+using API.SignalR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -44,6 +45,8 @@ namespace API
             services.AddCors(); 
             //Adding extension methods
             services.AddIdentityServices(_config);
+            //17.2. Adding a presence hub
+            services.AddSignalR();
             
         }
 
@@ -67,7 +70,11 @@ namespace API
             
             app.UseRouting();
             //Adding CORS support in the API
-            app.UseCors(x=>x.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200"));
+            app.UseCors(x=>x.AllowAnyHeader()
+                .AllowAnyMethod()
+                //17.3. Authenticating to SignalR
+                .AllowCredentials()
+                .WithOrigins("https://localhost:4200"));
             //Adding the authentication middleware
             app.UseAuthentication();
 
@@ -76,6 +83,10 @@ namespace API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                //17.2. Adding a presence hub
+                endpoints.MapHub<PresenceHub>("hubs/presence");
+                //17.7. Creating a message hub
+                endpoints.MapHub<MessageHub>("hubs/message");
             });
         }
     }

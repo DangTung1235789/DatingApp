@@ -87,11 +87,11 @@ namespace API.Controllers
             if(message.Sender.UserName != username && message.Recipient.UserName != username)
             return Unauthorized();
 
-            if(message.Sender.UserName == username) message.SenderDelete = true;
+            if(message.Sender.UserName == username) message.SenderDeleted = true;
 
             if(message.Recipient.UserName == username) message.RecipientDeleted = true;
 
-            if(message.SenderDelete && message.RecipientDeleted) 
+            if(message.SenderDeleted && message.RecipientDeleted) 
                 _messageRepository.DeleteMessage(message);
 
             if(await _messageRepository.SaveAllAsync()) return Ok();

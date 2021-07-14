@@ -4,5 +4,7 @@ export const environment = {
 when we publish our application, 
 we're going to publish our annual application and host it from our ASP.Net Core application
 */
-  apiUrl: 'api/'
+  apiUrl: 'api/',
+  //17.4. Client side SignalR
+  hubUrl: 'hubs/'
 };

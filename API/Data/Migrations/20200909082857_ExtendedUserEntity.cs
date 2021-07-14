@@ -69,8 +69,7 @@ namespace API.Data.Migrations
                 table: "Users",
                 type: "TEXT",
                 nullable: true);
-            // nullable: false in AppUserId
-            //that means we cant have a photo in our database that isn't related to an AppUser
+
             migrationBuilder.CreateTable(
                 name: "Photos",
                 columns: table => new
@@ -82,8 +81,6 @@ namespace API.Data.Migrations
                     PublicId = table.Column<string>(type: "TEXT", nullable: true),
                     AppUserId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
-                //onDelete: ReferentialAction.Cascade
-                //that means if we delete a user, then we delete all of photo 
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Photos", x => x.Id);
