@@ -36,8 +36,11 @@ export class UserManagementComponent implements OnInit {
     this.bsModalRef = this.modalService.show(RolesModelComponent, config);
     this.bsModalRef.content.updateSelectedRoles.subscribe((values: any[]) => {
       const rolesToUpdate = {
+        // spread operator (...) cho phép chuyển đổi một chuỗi thành nhiều argument
+        //test: [...values.filter((el: { checked: boolean; }) => el.checked === true)],
         roles: [...values.filter((el: { checked: boolean; }) => el.checked === true).map((el: { name: any; }) => el.name)]
       };
+      //console.log(rolesToUpdate);
       if(rolesToUpdate){
         this.adminService.updateUserRoles(user.username, rolesToUpdate.roles).subscribe(() => {
           user.roles = [...rolesToUpdate.roles]
@@ -62,6 +65,7 @@ export class UserManagementComponent implements OnInit {
           isMatch = true;
           role.checked = true;
           roles.push(role);
+
           break;
         }
       }
@@ -70,6 +74,7 @@ export class UserManagementComponent implements OnInit {
         roles.push(role);
       }
     })
+
     return roles;
   }
 }

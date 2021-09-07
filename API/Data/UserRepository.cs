@@ -34,6 +34,7 @@ namespace API.Data
             //when we pass ConfigurationProvider so we can go and get the configuration that we provided in our AutoMapperProfiles.cs
             //this tactic of projecting makes us more efficient in our database queries 
             //=> Go back UserController
+            // MemberDto.username = AppUser.Username
             .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
             .SingleOrDefaultAsync();
             //we've got 20 properties in here, i'm not going the whole thing because mapper help us 
@@ -52,6 +53,7 @@ namespace API.Data
         public async Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams)
         {
             //7. Adding filtering to the API ( bộ lọc ) => Linq trong lập trình C# ngôn ngữ truy vấn tích hợp
+            // AsQueryable() biến query như 1 query truy vấn từ đấy dùng các method toListAsync, chỉ ra where it goes to database
             var query =  _context.Users.AsQueryable();
             //this will give us opportunity to do smt with this query and decide what we want to filter 
             query = query.Where(u => u.UserName != userParams.CurrentUsername);
@@ -91,11 +93,6 @@ namespace API.Data
         {
             //Include(p => p.Photos): return Photo => neu ko gia tri se bi null o postman
             return await _context.Users.Include(p => p.Photos).ToListAsync();
-        }
-
-        public async Task<bool> SaveAllAsync()
-        {
-            return await _context.SaveChangesAsync() > 0;
         }
 
         public void Update(AppUser user)

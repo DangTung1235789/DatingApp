@@ -14,7 +14,6 @@ namespace API.Interfaces
         //user update profile
          void Update(AppUser user);
          // this is save all our change
-         Task<bool> SaveAllAsync();
          Task<IEnumerable<AppUser>> GetUsersAsync();
          //add a couple of different methods for getting a user 
          Task<AppUser> GetUserByIdAsync(int id);

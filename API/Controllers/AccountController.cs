@@ -93,14 +93,16 @@ namespace API.Controllers
             .Include(p => p.Photos)
             .SingleOrDefaultAsync(x => x.UserName == loginDto.Username.ToLower());
 
-            var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false); 
-
-            if(!result.Succeeded) return Unauthorized();
             //we didn't find a user in our database with that username
             if (user == null)
             {
                 return Unauthorized("Invalid username");
             }
+
+            var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false); 
+
+            if(!result.Succeeded) return Unauthorized();
+            
             //calculate the computed hash of their password using the password solt
             // using var hmac = new HMACSHA512(user.PasswordSalt);
 

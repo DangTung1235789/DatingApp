@@ -1,7 +1,11 @@
 /* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
   "compileOnSave": false,
+  
   "compilerOptions": {
+    "strictPropertyInitialization": false, /*Khởi tạo ko gắn biến*/
+    "noImplicitAny": false, /*cài đặt biến mặc định là any*/
+    "strictNullChecks":false, /* not assignable to type 'never'*/
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,

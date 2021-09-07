@@ -35,6 +35,7 @@ export class PresenceService {
     this.hubConnection.on('UserIsOnline', username => {
       //UserIsOnline match in PresenceHub.cs
       // 17.16. Optimizing the presence
+      // spread operator (...) cho phép chuyển đổi một chuỗi thành nhiều argument
       this.onlineUsers$.pipe(take(1)).subscribe(usernames => {
         this.onlineUsersSource.next([...usernames, username])
       })

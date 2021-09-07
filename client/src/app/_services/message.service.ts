@@ -46,7 +46,12 @@ export class MessageService {
     })
 
     this.hubConnection.on('UpdatedGroup', (group: Group) => {
-      if(group.connections.some(x => x.username === otherUsername)) {
+      var x = group.connections.some(x => x.username === otherUsername);
+      if(x) {
+        console.log(x);
+        console.log(group.connections.filter(x => x.username));
+        console.log(group);
+        console.log(otherUsername);
         this.messageThread$.pipe(take(1)).subscribe(messages => {
           messages.forEach(message => {
             if(!message.dateRead) {

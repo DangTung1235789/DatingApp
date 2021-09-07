@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { User } from 'src/app/_models/User';
 
@@ -9,7 +9,7 @@ import { User } from 'src/app/_models/User';
   styleUrls: ['./roles-model.component.css']
 })
 export class RolesModelComponent implements OnInit {
-  @Input() updateSelectedRoles = new EventEmitter();
+  @Output() updateSelectedRoles = new EventEmitter();
   user!: User;
   roles!: any[];
 

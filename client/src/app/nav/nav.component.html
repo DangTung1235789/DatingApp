@@ -61,19 +61,23 @@
           <!-- (event) = function -->
           <!--*ngIf="(currentUser$ | async)==null: showing if login isn't success (10. Using the async pipes)-->
           <form *ngIf="(accountService.currentUser$ | async)==null" #loginForm="ngForm" class="form-inline mt-2 mt-md-0"(ngSubmit)="login()" autocomplete="off" >
+            <div class="form-check form-check-inline">
               <input 
                 name="username"
                 [(ngModel)]="model.username"
                 class="form-control mr-sm-2" 
                 type="text" 
                 placeholder="Username">
+            </div>
+            <div class="form-check form-check-inline">
               <input 
                 name="password"
                 [(ngModel)]="model.password"
                 class="form-control mr-sm-2" 
                 type="password"
-                placeholder="Password" >
-              <button class="btn btn-success my-2 my-sm-0" type="submit" >Login</button>
+                placeholder="Password">
+            </div>          
+            <button class="btn btn-success my-2 my-sm-0" type="submit" >Login</button>
           </form>
       </div> 
   </nav>

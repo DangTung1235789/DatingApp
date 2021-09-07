@@ -32,6 +32,7 @@ export class AppComponent implements OnInit {
   */
   Null: any = null;
   setCurrentUser(){
+    // Retrieving data:
     const user: User = JSON.parse(localStorage.getItem('user') || this.Null ); //loi load 
     // 17.4. Client side SignalR
     if(user)

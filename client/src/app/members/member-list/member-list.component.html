@@ -5,49 +5,51 @@
 
 <div class="container mt-3">
     <form #form="ngForm" class="form-inline mb-3" (ngSubmit)="loadMembers()" autocomplete="off">
-        <div class="form-group px-2">
+        
+        <div class="form-check form-check-inline">
             <label>Age from: </label>
             <input type="number" class="form-control ml-1" style="width: 70px;" name="minAge" 
                 [(ngModel)]="userParams.minAge">
         </div>
-
-        <div class="form-group px-2">
+        <div class="form-check form-check-inline">
             <label>Age to: </label>
-            <input type="number" class="form-control ml-1" style="width: 70px;" name="maxAge" 
-                [(ngModel)]="userParams.maxAge">
-        </div>
-
-        <div class="form-group px-2">
+                <input type="number" class="form-control ml-1" style="width: 70px;" name="maxAge" 
+                    [(ngModel)]="userParams.maxAge">
+            </div>
+        <div class="form-check form-check-inline">
             <label>Show: </label>
             <select name="gender" style="width: 130px" [(ngModel)]="userParams.gender" class="form-control ml-1">
                 <option *ngFor="let gender of genderList" [value]="gender.value">
-                    {{gender.display}}
+                        {{gender.display}}
                 </option>
             </select>
         </div>
-        <div class="form-group px-2" style="margin-top: 10px;">
-            <button class="btn btn-primary ml-1" type="submit" style="margin-right: 10px;">Apply Filters</button>
-            <button (click)="resetFilters()" class="btn btn-info ml-1" type="submit">Reset Filters</button>
-            
-            <div class="btn-group float-right" style="margin-left: 10px;">
-                <button
-                    type="button" 
-                    class="btn btn-primary" 
-                    name='orderBy'
-                    (click)="loadMembers()"
-                    btnRadio='lastActive' 
-                    [(ngModel)]="userParams.orderBy" style="margin-right: 10px;">Last Active</button>
-                <button
-                    type="button" 
-                    class="btn btn-primary" 
-                    name='orderBy'
-                    (click)="loadMembers()"
-                    btnRadio='created' 
-                    [(ngModel)]="userParams.orderBy">Newest Members</button>
+
+        <div class="form-check form-check-inline">
+            <div class="form-group px-2" style="margin-top: 10px;">
+                <button class="btn btn-primary ml-1" type="submit" style="margin-right: 10px;">Apply Filters</button>
+                <button (click)="resetFilters()" class="btn btn-info ml-1" type="submit">Reset Filters</button>
+                    
+                <div class="btn-group float-right" style="margin-left: 10px;">
+                    <button
+                            type="button" 
+                            class="btn btn-primary" 
+                            name='orderBy'
+                            (click)="loadMembers()"
+                            btnRadio='lastActive' 
+                            [(ngModel)]="userParams.orderBy" style="margin-right: 10px;">Last Active</button>
+                    <button
+                            type="button" 
+                            class="btn btn-primary" 
+                            name='orderBy'
+                            (click)="loadMembers()"
+                            btnRadio='created' 
+                            [(ngModel)]="userParams.orderBy">Newest Members</button>
+                    </div>
             </div>
         </div>
-        
     </form>
+</div>
 <div class="row">
     <!-- // 5. Setting up client pagination -->
     <div *ngFor="let member of members" class="col-2">
@@ -67,6 +69,7 @@
         [itemsPerPage]="pagination.itemsPerPage"
         [(ngModel)]="pagination.currentPage"
         (pageChanged)="pageChanged($event)"
+        [maxSize]="5"
         previousText="&lsaquo;" 
         nextText="&rsaquo;" 
         firstText="&laquo;" 

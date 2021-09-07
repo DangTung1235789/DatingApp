@@ -20,6 +20,7 @@ import { take } from 'rxjs/operators';
 export class MemberDetailComponent implements OnInit, OnDestroy {
   //12. Activating the message tab
   // check in member-detail.component.html => #memberTabs
+  // viewchild là ánh xạ dữ liệu từ html về ts=> có thể thay đổi dữ liệu hoặc bất kì điều gì
   @ViewChild('memberTabs', {static: true}) memberTabs!: TabsetComponent;
   member!: Member;
   //13. Adding a photo gallery

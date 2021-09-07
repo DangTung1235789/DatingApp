@@ -10,3 +10,8 @@ export interface User{
     ////14. Adding an admin guard
     roles: string[];
 }
+
+// export interface Todo {
+//     title: string;
+//     description: string;
+// }

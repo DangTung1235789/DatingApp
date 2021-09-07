@@ -19,6 +19,7 @@ namespace API.Helpers
             //that we need for our mapping profiles 
             //we need to do because we're going to be adding this as a dependency that we can inject 
             //we need to add this to our application service extentions
+            //AppUser => MemberDto
             CreateMap<AppUser, MemberDto>()
             //- we can add some configuration ForMember: we want to affect 
             //- the first we pass is the destination => what property are we looking to affect ? => PhotoUrl
@@ -44,7 +45,7 @@ namespace API.Helpers
                 .ForMember(dest => dest.RecipientPhotoUrl, opt => opt.MapFrom(src => 
                     src.Recipient.Photos.FirstOrDefault(x => x.IsMain).Url));
             // 17.14. Dealing with UTC date formats
-            CreateMap<DateTime, DateTime>().ConvertUsing(d => DateTime.SpecifyKind(d, DateTimeKind.Utc));
+            //CreateMap<DateTime, DateTime>().ConvertUsing(d => DateTime.SpecifyKind(d, DateTimeKind.Utc));
         }
     }
 }

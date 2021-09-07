@@ -74,6 +74,7 @@ export class AccountService {
     user.roles = [];
     const roles = this.getDecodedToken(user.token).role;
     Array.isArray(roles) ? user.roles = roles : user.roles.push(roles);
+    // Storing data:
     localStorage.setItem('user',JSON.stringify(user));
     this.currentUserSource.next(user);
   }

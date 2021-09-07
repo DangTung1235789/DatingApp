@@ -30,15 +30,10 @@ namespace API.Extensions
             //testing is the main reason for creating an interface
             //add lifetime of token
             services.AddScoped<ITokenService, TokenService>();
-            //3. Adding a likes repository
-            services.AddScoped<ILikesRepository, LikesRepository>();
-            //3. Setting up the message repository
-            services.AddScoped<IMessageRepository, MessageReopsitory>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             //12. Adding an action filter
             services.AddScoped<LogUserActivity>();
-            //inside here we want to add the service for our repository
-            //ket noi IUserRepository voi UserRepository
-            services.AddScoped<IUserRepository, UserRepository>();
+
             //add automapper de giai quyet loi vong lap 
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly); //check loi
             //create a connection string for our database

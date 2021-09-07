@@ -1,4 +1,5 @@
 using System;
+using System.Text.Json.Serialization;
 
 namespace API.DTOs
 {
@@ -20,6 +21,11 @@ namespace API.DTOs
 
         //time message is send
         public DateTime MessageSent { get; set; }
+        //we dont want to sent these prop back without dto, lúc map sẽ bỏ qua 2 thuộc tính dưới 
+        [JsonIgnore]
+        public bool SenderDeleted { get; set; }
+        [JsonIgnore]
+        public bool RecipientDeleted { get; set; }
 
     
     }

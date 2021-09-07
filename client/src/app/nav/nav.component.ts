@@ -13,14 +13,16 @@ import { AccountService } from '../_services/account.service';
 export class NavComponent implements OnInit {
   //khoi tao model login
   model: any = {}
-  
+  //todo!: Todo;
   //improt { AccountService } from '../_services/account.service';
   //we're going to do is inject our service inside this component
   // Adding a toast service for notifications
   constructor(public accountService: AccountService, private router: Router, private toastr: ToastrService) { }
   
   ngOnInit(): void {
-  
+    // this.todo2;
+    // console.log(this.todo1);
+    // console.log(this.todo2);
   }
   //we're going to use our account service to actually login our user
   /*
@@ -50,4 +52,18 @@ export class NavComponent implements OnInit {
     //send back to home page
     this.router.navigateByUrl('/');
   }
+
+  // updateTodo(todo: Todo, fieldsToUpdate: Partial<Todo>) {
+  //   return { ...todo, ...fieldsToUpdate };
+  // }
+
+  // todo1 = {
+  //   title: "organize desk",
+  //   description: "clear clutter",
+  // };
+   
+  // todo2 = this.updateTodo(this.todo1, {
+  //   description: "throw out trash",
+  // });
+  
 }
